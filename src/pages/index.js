@@ -1,184 +1,227 @@
-import * as React from "react"
+import React, { useState, useEffect, useRef } from "react"
+import { Link, graphql } from 'gatsby'
+import {   useViewportScroll,
+  motion,
+  useTransform,
+  useMotionValue,
+  useAnimation } from "framer-motion"
+import { useInView } from 'react-intersection-observer';
+import AnimatedLayout from "../components/animatedlayout"
 
-// styles
-const pageStyles = {
-  color: "#232129",
-  padding: 96,
-  fontFamily: "-apple-system, Roboto, sans-serif, serif",
-}
-const headingStyles = {
-  marginTop: 0,
-  marginBottom: 64,
-  maxWidth: 320,
-}
-const headingAccentStyles = {
-  color: "#663399",
-}
-const paragraphStyles = {
-  marginBottom: 48,
-}
-const codeStyles = {
-  color: "#8A6534",
-  padding: 4,
-  backgroundColor: "#FFF4DB",
-  fontSize: "1.25rem",
-  borderRadius: 4,
-}
-const listStyles = {
-  marginBottom: 96,
-  paddingLeft: 0,
-}
-const listItemStyles = {
-  fontWeight: 300,
-  fontSize: 24,
-  maxWidth: 560,
-  marginBottom: 30,
-}
+import Container from "../components/container"
+import Grid from '@material-ui/core/Grid';
+import { StaticImage, getImage } from "gatsby-plugin-image"
 
-const linkStyle = {
-  color: "#8954A8",
-  fontWeight: "bold",
-  fontSize: 16,
-  verticalAlign: "5%",
-}
+import WorkThumb from "../components/workthumb"
 
-const docLinkStyle = {
-  ...linkStyle,
-  listStyleType: "none",
-  marginBottom: 24,
-}
+import Circles from "../images/circles"
+import Symbol from "../images/symbol"
 
-const descriptionStyle = {
-  color: "#232129",
-  fontSize: 14,
-  marginTop: 10,
-  marginBottom: 0,
-  lineHeight: 1.25,
-}
+import documentationGif from "../images/documentation.gif"
 
-const docLink = {
-  text: "Documentation",
-  url: "https://www.gatsbyjs.com/docs/",
-  color: "#8954A8",
-}
+const IndexPage = ({ data, props }) => {
 
-const badgeStyle = {
-  color: "#fff",
-  backgroundColor: "#088413",
-  border: "1px solid #088413",
-  fontSize: 11,
-  fontWeight: "bold",
-  letterSpacing: 1,
-  borderRadius: 4,
-  padding: "4px 6px",
-  display: "inline-block",
-  position: "relative",
-  top: -2,
-  marginLeft: 10,
-  lineHeight: 1,
-}
+  const gutter = 5
+  let postCounter = 0
 
-// data
-const links = [
-  {
-    text: "Tutorial",
-    url: "https://www.gatsbyjs.com/docs/tutorial/",
-    description:
-      "A great place to get started if you're new to web development. Designed to guide you through setting up your first Gatsby site.",
-    color: "#E95800",
-  },
-  {
-    text: "How to Guides",
-    url: "https://www.gatsbyjs.com/docs/how-to/",
-    description:
-      "Practical step-by-step guides to help you achieve a specific goal. Most useful when you're trying to get something done.",
-    color: "#1099A8",
-  },
-  {
-    text: "Reference Guides",
-    url: "https://www.gatsbyjs.com/docs/reference/",
-    description:
-      "Nitty-gritty technical descriptions of how Gatsby works. Most useful when you need detailed information about Gatsby's APIs.",
-    color: "#BC027F",
-  },
-  {
-    text: "Conceptual Guides",
-    url: "https://www.gatsbyjs.com/docs/conceptual/",
-    description:
-      "Big-picture explanations of higher-level Gatsby concepts. Most useful for building understanding of a particular topic.",
-    color: "#0D96F2",
-  },
-  {
-    text: "Plugin Library",
-    url: "https://www.gatsbyjs.com/plugins",
-    description:
-      "Add functionality and customize your Gatsby site or app with thousands of plugins built by our amazing developer community.",
-    color: "#8EB814",
-  },
-  {
-    text: "Build and Host",
-    url: "https://www.gatsbyjs.com/cloud",
-    badge: true,
-    description:
-      "Now you’re ready to show the world! Give your Gatsby site superpowers: Build and host on Gatsby Cloud. Get started for free!",
-    color: "#663399",
-  },
-]
+  const { scrollY } = useViewportScroll();
+  const square1 = useTransform(scrollY, [0, 300], [0, -1500]);
+  const square2 = useTransform(scrollY, [0, 500], [0, -900]);
+  const square3y = useTransform(scrollY, [0, 500, 501], [0, 1400, -2000]);
+  const photo = useTransform(scrollY, [0, 300, 750, 900], [0, -550, -700, -800]);
 
-// markup
-const IndexPage = () => {
+  const controls = useAnimation();
+  const { ref, inView } = useInView({
+      threshold: .3
+  });
+
+  useEffect(() => {
+    if (inView) {
+      controls.start('visible');
+    }
+    if (!inView) {
+      controls.start('hidden');
+    }
+  }, [controls, inView]);
+
+  const parent = {
+    hidden: { scale: 0.95 },
+    visible: {
+      scale: 1,
+      transition: {
+        duration: .5
+      }
+    }
+  }
+
   return (
-    <main style={pageStyles}>
-      <title>Home Page</title>
-      <h1 style={headingStyles}>
-        Congratulations
-        <br />
-        <span style={headingAccentStyles}>— you just made a Gatsby site! </span>
-        <span role="img" aria-label="Party popper emojis">
-          🎉🎉🎉
-        </span>
-      </h1>
-      <p style={paragraphStyles}>
-        Edit <code style={codeStyles}>src/pages/index.js</code> to see this page
-        update in real-time.{" "}
-        <span role="img" aria-label="Sunglasses smiley emoji">
-          😎
-        </span>
-      </p>
-      <ul style={listStyles}>
-        <li style={docLinkStyle}>
-          <a
-            style={linkStyle}
-            href={`${docLink.url}?utm_source=starter&utm_medium=start-page&utm_campaign=minimal-starter`}
-          >
-            {docLink.text}
-          </a>
-        </li>
-        {links.map(link => (
-          <li key={link.url} style={{ ...listItemStyles, color: link.color }}>
-            <span>
-              <a
-                style={linkStyle}
-                href={`${link.url}?utm_source=starter&utm_medium=start-page&utm_campaign=minimal-starter`}
+    <AnimatedLayout>
+      <Container>
+        <Grid container spacing={gutter}>
+
+        <motion.div className="square1"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ delay: 0, duration: .5 }}
+        style={{ y: square1}}>
+
+          <Symbol />
+        </motion.div>
+
+        <motion.div className="square2"
+        initial={{ y: 100, opacity: 1}}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0, duration: .5 }}
+        style={{ y: square2}}>
+          <Circles />
+        </motion.div>
+        
+        <motion.div className="square3"
+        initial={{ x: 100, opacity: 1 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ delay: 0, duration: .5 }}
+        style={{ y: square3y }}> 
+          <div className="childsquare3" />
+        </motion.div>
+
+        <Grid item lg={7} md={5} />
+          <Grid item lg={5} md={7} style={{ zIndex: '1'}}>
+              <div
+              className="hero"
               >
-                {link.text}
-              </a>
-              {link.badge && (
-                <span style={badgeStyle} aria-label="New Badge">
-                  NEW!
-                </span>
-              )}
-              <p style={descriptionStyle}>{link.description}</p>
-            </span>
-          </li>
-        ))}
-      </ul>
-      <img
-        alt="Gatsby G Logo"
-        src="data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 2a10 10 0 110 20 10 10 0 010-20zm0 2c-3.73 0-6.86 2.55-7.75 6L14 19.75c3.45-.89 6-4.02 6-7.75h-5.25v1.5h3.45a6.37 6.37 0 01-3.89 4.44L6.06 9.69C7 7.31 9.3 5.63 12 5.63c2.13 0 4 1.04 5.18 2.65l1.23-1.06A7.959 7.959 0 0012 4zm-8 8a8 8 0 008 8c.04 0 .09 0-8-8z' fill='%23639'/%3E%3C/svg%3E"
-      />
-    </main>
+              <motion.h1 
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: .25, duration: .5 }}>
+                Product designer,
+              </motion.h1><br/>
+              <motion.h1 initial={{ y: -5, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: .65, duration: .5 }}>design systems</motion.h1>
+              </div>
+          </Grid>
+
+
+          <Grid item xl={5} lg={5} md={8} sm={12} xs={12} style= {{ }}>
+            <motion.div className="hero-description"         initial={{ y: 500  }}
+            animate={{ y: 0 }}
+            transition={{ delay: .25, duration: 1 }}>
+              <p>Otávio is a Brazilian football nerd, a punk rock fan and a product designer passionate about branding and front-end development.</p>
+
+              <p>He designs end-to-end, user-centered solutions from early discoveries to  iteration cycles while being the conduit between the business and users.</p>
+            
+              <p>Otávio has a bachelor's degree in Communication from  Universidade de São Paulo, where he proudly wrote a thesis on emotional design in football.</p>
+                            
+              <p>He is currently a Senior Product Designer working with design systems at proptech startup <a href="https://quintoandar.com.br" target="_blank">QuintoAndar</a> in São Paulo, Brazil.</p>
+            </motion.div>
+            </Grid>
+            
+            <Grid item lg={2} />
+
+            <Grid item lg={5} md={12} style={{ zIndex: '1'}}>
+              <motion.div className="hero-picture"
+              style={{ y: photo }}
+              ref={ref}
+              initial="hidden"
+              animate={controls}
+              variants={parent}>
+                <div>
+                  <StaticImage src="../images/heroprofile.png" />
+                </div>
+
+              </motion.div>
+            </Grid>
+        </Grid>
+        <section className="work-loop">
+        {
+          data.allMdx.nodes.map((node) => {
+            postCounter++
+            return (
+              postCounter % 2 === 0 ?
+              <div className="work-thumb-margin">
+              <Grid container spacing={gutter}>
+              <Grid item lg={4} md={0}></Grid>
+              <Grid item lg={6} md={10} sm={12}>
+              <div style={{color: node.frontmatter.color,}}>
+              <WorkThumb 
+              title={node.frontmatter.title}
+              key={node.frontmatter.title}
+              image={getImage(node.frontmatter.thumbnail)}
+              soon={node.frontmatter.soon}
+              url={`/work/${node.slug}`} 
+              />
+              </div>
+              </Grid>
+              </Grid>
+              </div>
+              :
+              <Grid container spacing={gutter}>
+              <Grid item lg={2} md={2}></Grid>
+              <Grid item lg={6} md={10} sm={12}>
+              <div style={{color: node.frontmatter.color,}}>
+              <WorkThumb 
+              title={node.frontmatter.title}
+              key={node.frontmatter.title}
+              image={getImage(node.frontmatter.thumbnail)}
+              soon={node.frontmatter.soon}
+              url={`/work/${node.slug}`} 
+              />
+              </div>
+              </Grid>
+              </Grid>
+            )
+          })
+        }
+        </section>
+
+        <Grid container>
+        
+        <Grid item lg={5} />
+        <Grid item lg={6}>
+        <div className="footer-description">  
+          <p>Otávio started his career at digital media agency <a href="https://sa365.ag" target="_blank">SA365</a> as an art director, where he had the opportunity to explore various fields, from branding to motion design, before eventually focusing his career on user experience design.</p>
+
+          <p>In 2018, he became a Product Designer at <a href="https://quintoandar.com.br" target="_blank">QuintoAndar</a>, a proptech startup focused on long-term rentals and home sales. Since then, he has worked in a wide range of contexts, from credit approvals to home inspections.</p>
+
+          <p>After these experiences, Otávio moved to a cross-functional, dedicated design systems team, where he currently leads a cross-platform design system used by all QuintoAndar’s digital products, including web and native applications for tenants, landlords, realtors, photographers, and operational teams.
+          </p>
+
+          <p>During this time, he has helped the team ship initiatives to improve product development and designing experience, such as a semantic tokens system; accessible and reusable patterns; a refined technical, cross-functional documentation template; a new icons library; redesign and design of components of varied atomicity; as well as maintaining components and tokens libraries on Figma.
+          </p>    
+          
+          <p>Otávio has now 5 years of design experience and is open for an overseas opportunity.</p>
+        </div>
+        </Grid>
+
+        </Grid>
+      </Container>
+    </AnimatedLayout>
   )
 }
 
 export default IndexPage
+
+export const query = graphql`
+query {
+  allMdx(sort: {fields: frontmatter___date, order: ASC}) {
+    nodes {
+      frontmatter {
+        date(formatString: "MMMM D, YYYY")
+        title
+        soon
+        color
+        thumbnail {
+          childImageSharp {
+            gatsbyImageData(
+              width: 1200
+              formats: [AUTO, WEBP, AVIF]
+            )
+          }
+        }
+      }
+      id
+      slug
+    }
+  }
+}
+`
