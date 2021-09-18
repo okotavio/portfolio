@@ -1,5 +1,5 @@
 {
     "componentChunkName": "component---src-work-credit-simulation-mdx",
     "path": "/credit-simulation/",
-    "result": {"pageContext":{"frontmatter":{"title":"Credit Simulation","description":"As a Product Designer in the Conversion tribe, I was in charge of designing solutions to increase the number of lease signings.","date":"2019-01-01","color":"#F09E27","soon":false,"prototype":"https://projects.invisionapp.com/share/S3YFX1BR29K#/screens","thumbnail":"../images/credit-simulation.png","endimage":"../images/credit-simulation-6.png"}}},
+    "result": {"pageContext":{"frontmatter":{"title":"Credit Simulation","description":"As a Product Designer in the Conversion tribe, I was in charge of designing solutions to increase the number of lease signings.","date":"2019-01-01","color":"#F09E27","soon":false,"prototype":"https://projects.invisionapp.com/share/S3YFX1BR29K#/screens","thumbnail":"credit-simulation.png","endimage":"credit-simulation-6.png"}}},
     "staticQueryHashes": []}

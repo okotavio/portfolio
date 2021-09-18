@@ -1,5 +1,5 @@
 {
     "componentChunkName": "component---src-work-semantic-tokens-system-mdx",
     "path": "/semantic-tokens-system/",
-    "result": {"pageContext":{"frontmatter":{"title":"Semantic Tokens System","description":"Not done.","date":"2021-09-01","color":"#1379BC","soon":true,"prototype":"https://invis.io/B6YFX1FJZAU#/","thumbnail":"../images/colors.png","endimage":"../images/colors.png"}}},
+    "result": {"pageContext":{"frontmatter":{"title":"Semantic Tokens System","description":"Not done.","date":"2021-09-01","color":"#1379BC","soon":true,"prototype":"https://invis.io/B6YFX1FJZAU#/","thumbnail":"colors.png","endimage":"colors.png"}}},
     "staticQueryHashes": []}
