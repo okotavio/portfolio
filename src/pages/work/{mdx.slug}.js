@@ -85,7 +85,6 @@ query($id: String) {
         childImageSharp {
           gatsbyImageData(
             width: 900
-            formats: [AUTO, WEBP, AVIF]
           )
         }
       }

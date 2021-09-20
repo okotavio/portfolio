@@ -1,5 +1,5 @@
 {
     "componentChunkName": "component---src-work-design-system-documentation-mdx",
     "path": "/design-system-documentation/",
-    "result": {"pageContext":{"frontmatter":{"title":"Design systems documentation","description":"Not done.","date":"2021-08-01","color":"#EABACE","soon":true,"prototype":"https://invis.io/B6YFX1FJZAU#/","thumbnail":"../images/documentation.png"}}},
+    "result": {"pageContext":{"frontmatter":{"title":"Design systems documentation","description":"Not done.","date":"2021-08-01","color":"#EABACE","soon":true,"prototype":"https://invis.io/B6YFX1FJZAU#/","thumbnail":"documentation.png"}}},
     "staticQueryHashes": []}

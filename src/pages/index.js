@@ -214,7 +214,6 @@ query {
           childImageSharp {
             gatsbyImageData(
               width: 1200
-              formats: [AUTO, WEBP, AVIF]
             )
           }
         }

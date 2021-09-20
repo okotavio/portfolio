@@ -46,17 +46,17 @@ export default function Footer({ style }) {
             <Grid container>
               <ul>
                 <li>
-                  <a href="#">
+                  <a href="https://www.linkedin.com/in/otaviovidal/" target="_blank">
                   LinkedIn
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                <a href="https://medium.com/@otvidal" target="_blank">
                   Medium
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="https://instagram.com/okotavio" target="_blank">
                   Instagram
                   </a>
                 </li>
