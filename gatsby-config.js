@@ -1,5 +1,5 @@
 module.exports = {
-  pathPrefix: "/okotavio.github.io",
+  pathPrefix: "/portfolio",
   plugins: [
     "gatsby-plugin-sass",
     "gatsby-plugin-image",
